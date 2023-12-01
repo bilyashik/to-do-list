@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
+function TodoList() {
+  const [tasks, setTasks] = useState([])
+  const [input, setInput] = useState("")
+
+  const handleAddTask = () => {
+    setTasks([...tasks, input]);
+    setInput("")
+  }
+
+  const handleDeleteTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>to do list</h1>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="введите задачу"
+      />
+      <button onClick={handleAddTask}>добавить задачу</button>
+      {tasks.map((task, index) => (
+        <div key={index}>
+          <p>задача #{index + 1}: {task}</p>
+          <button onClick={() => handleDeleteTask(index)}>удалить</button>
+        </div>
+      ))}
     </div>
   );
 }
 
-export default App;
+export default TodoList;
